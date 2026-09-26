@@ -1,0 +1,5542 @@
+<!DOCTYPE html>
+
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>100 Marks Computer Online Exam Portal</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+*{
+
+    box-sizing:border-box;
+
+    margin:0;
+
+    padding:0;
+
+    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+
+}
+
+:root{
+
+    --mcq-font-size:15px;
+
+    --mcq-question-font-size:18px;
+
+    --logo-url:url("https://drive.google.com/thumbnail?id=1KA_SgVy5_aSFuBg_Y09uLGdS46_14MXX&sz=w1000");
+
+}
+
+body{
+
+    background:#0f172a;
+
+    min-height:100vh;
+
+    user-select:none;
+
+}
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+
+#password-lock-screen{
+
+    position:fixed;
+
+    inset:0;
+
+    width:100%;
+
+    height:100%;
+
+    background:#0f172a;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:99999;
+
+}
+
+.pass-box{
+
+    background:#1e293b;
+
+    padding:30px;
+
+    border-radius:12px;
+
+    text-align:center;
+
+    max-width:400px;
+
+    width:90%;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.5);
+
+    border:1px solid #334155;
+
+}
+
+.login-logo{
+
+    width:clamp(110px,12vw,90px);
+
+    height:clamp(110px,12vw,90px);
+
+    object-fit:contain;
+
+    display:block;
+
+    margin:0 auto 12px;
+
+    background:#fff;
+
+    border-radius:8px;
+
+    padding:4px;
+
+}
+
+/* ===== COACHING NAME UNDER LOGIN LOGO ===== */
+
+.lock-coaching-name{
+
+    color:#fff;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    margin-bottom:15px;
+
+}
+
+.pass-box h3{
+
+    color:#fff;
+
+    margin-bottom:15px;
+
+    font-size:20px;
+
+}
+
+.pass-box input{
+
+    width:100%;
+
+    padding:12px;
+
+    margin-bottom:15px;
+
+    border-radius:6px;
+
+    border:1px solid #475569;
+
+    background:#0f172a;
+
+    color:#fff;
+
+    text-align:center;
+
+    font-size:16px;
+
+}
+
+.pass-box button{
+
+    width:100%;
+
+    padding:12px;
+
+    background:#2563eb;
+
+    color:#fff;
+
+    border:none;
+
+    border-radius:6px;
+
+    font-weight:bold;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+}
+
+#pass-error{
+
+    color:#ef4444;
+
+    font-size:14px;
+
+    margin-top:10px;
+
+    display:none;
+
+}
+
+/* =========================================================
+   WELCOME
+========================================================= */
+
+.welcome-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    width:100%;
+
+    height:100%;
+
+    background:rgba(15,23,42,.95);
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:10000;
+
+}
+
+.welcome-box{
+
+    background:#1e293b;
+
+    padding:35px 30px;
+
+    border-radius:12px;
+
+    text-align:center;
+
+    max-width:450px;
+
+    width:90%;
+
+    border:1px solid #334155;
+
+}
+
+.welcome-box h2{
+
+    color:#fff;
+
+    font-size:22px;
+
+    margin-bottom:15px;
+
+}
+
+.welcome-box p{
+
+    color:#cbd5e1;
+
+    font-size:15px;
+
+    margin-bottom:25px;
+
+}
+
+.btn-signup{
+
+    background:#2563eb;
+
+    color:#fff;
+
+    border:none;
+
+    padding:12px 30px;
+
+    border-radius:6px;
+
+    font-weight:bold;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    width:100%;
+
+}
+
+/* =========================================================
+   REGISTRATION
+========================================================= */
+
+.registration-wrapper{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    min-height:100vh;
+
+    background:
+
+        linear-gradient(
+
+            135deg,
+
+            #1e293b,
+
+            #0f172a
+
+        );
+
+    padding:20px;
+
+}
+
+.brand-card{
+
+    background:#fff;
+
+    padding:30px;
+
+    border-radius:12px;
+
+    width:100%;
+
+    max-width:450px;
+
+    text-align:center;
+
+    position:relative;
+
+    overflow:hidden;
+
+    isolation:isolate;
+
+}
+
+/* =========================================================
+   REGISTRATION WATERMARK
+========================================================= */
+
+.brand-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:50%;
+
+    left:50%;
+
+    width:clamp(260px,55vmin,520px);
+
+    height:clamp(260px,55vmin,520px);
+
+    transform:
+
+        translate(-50%,-50%);
+
+    background-image:var(--logo-url);
+
+    background-repeat:no-repeat;
+
+    background-position:center;
+
+    background-size:contain;
+
+    opacity:.14;
+
+    pointer-events:none;
+
+    z-index:0;
+
+}
+
+.brand-card > *{
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+/* =========================================================
+   REGISTRATION LOGO
+========================================================= */
+
+.registration-logo{
+
+    width:clamp(65px,12vw,85px);
+
+    height:clamp(65px,12vw,85px);
+
+    object-fit:contain;
+
+    display:block;
+
+    margin:0 auto 10px;
+
+    background:#fff;
+
+    border-radius:8px;
+
+    padding:3px;
+
+}
+
+.coaching-title{
+
+    font-size:22px;
+
+    color:#1e293b;
+
+    font-weight:bold;
+
+}
+
+.coaching-subtitle{
+
+    font-size:13px;
+
+    color:#64748b;
+
+    margin-bottom:20px;
+
+    border-bottom:1px solid #cbd5e1;
+
+    padding-bottom:10px;
+
+}
+
+/* =========================================================
+   REGISTRATION FORM
+========================================================= */
+
+.form-group{
+
+    margin-bottom:14px;
+
+    text-align:left;
+
+    position:relative;
+
+    z-index:3;
+
+}
+
+.form-group label{
+
+    display:block;
+
+    margin-bottom:5px;
+
+    font-weight:bold;
+
+    font-size:13px;
+
+    color:#1e293b;
+
+}
+
+.form-group input,
+
+.form-group select{
+
+    width:100%;
+
+    padding:10px;
+
+    border:1px solid #94a3b8;
+
+    border-radius:6px;
+
+    font-size:14px;
+
+    position:relative;
+
+    z-index:4;
+
+    background:rgba(255,255,255,.12);
+
+    color:#0f172a;
+
+    transition:
+
+        background .10s ease,
+
+        box-shadow .10s ease;
+
+}
+
+.form-group input::placeholder{
+
+    color:#64748b;
+
+    opacity:1;
+
+}
+
+.form-group input:focus,
+
+.form-group select:focus{
+
+    background:#fff;
+
+    outline:none;
+
+    box-shadow:
+
+        0 0 0 2px rgba(37,99,235,.18);
+
+}
+
+.form-group input:not(:focus),
+
+.form-group select:not(:focus){
+
+    background:rgba(255,255,255,.12);
+
+}
+
+.form-group input.typing-active:not(:focus),
+
+.form-group select.typing-active:not(:focus){
+
+    background:rgba(255,255,255,.12);
+
+}
+
+.btn-start{
+
+    width:100%;
+
+    padding:12px;
+
+    background:#2563eb;
+
+    color:#fff;
+
+    border:none;
+
+    border-radius:6px;
+
+    font-weight:bold;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    margin-top:10px;
+
+    position:relative;
+
+    z-index:5;
+
+}
+
+/* =========================================================
+   EXAM INTERFACE
+========================================================= */
+
+#exam-interface{
+
+    display:none;
+
+    flex-direction:column;
+
+    height:100vh;
+
+    background:#f4f6f9;
+
+}
+
+header{
+
+    background:#1e293b;
+
+    color:#fff;
+
+    padding:10px 20px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    flex-shrink:0;
+
+}
+
+.exam-header-brand{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    min-width:0;
+
+}
+
+.exam-header-logo{
+
+    width:48px;
+
+    height:48px;
+
+    object-fit:contain;
+
+    background:#fff;
+
+    border-radius:6px;
+
+    padding:3px;
+
+    flex-shrink:0;
+
+}
+
+.header-title{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+}
+
+.header-sub-title{
+
+    font-size:12px;
+
+    color:#94a3b8;
+
+}
+
+.timer{
+
+    background:#ef4444;
+
+    padding:6px 12px;
+
+    border-radius:4px;
+
+    font-weight:bold;
+
+    font-size:16px;
+
+    white-space:nowrap;
+
+}
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.container{
+
+    display:flex;
+
+    flex:1;
+
+    overflow:hidden;
+
+    position:relative;
+
+}
+
+.section-view{
+
+    display:none;
+
+    flex:1;
+
+    flex-direction:row;
+
+    min-width:0;
+
+    position:relative;
+
+}
+
+.section-view.active{
+
+    display:flex;
+
+}
+
+/* =========================================================
+   QUESTION SECTION
+========================================================= */
+
+.question-section{
+
+    flex:1;
+
+    padding:20px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+    margin:10px;
+
+    border-radius:8px;
+
+    background:#fff;
+
+    box-shadow:
+
+        0 2px 5px rgba(0,0,0,.1);
+
+    min-width:0;
+
+    position:relative;
+
+    overflow:hidden;
+
+    isolation:isolate;
+
+}
+
+/* =========================================================
+   MCQ WATERMARK
+========================================================= */
+
+.question-section::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:50%;
+
+    left:50%;
+
+    width:clamp(280px,48vmin,600px);
+
+    height:clamp(280px,48vmin,600px);
+
+    transform:
+
+        translate(-50%,-50%);
+
+    background-image:var(--logo-url);
+
+    background-repeat:no-repeat;
+
+    background-position:center;
+
+    background-size:contain;
+
+    opacity:.085;
+
+    pointer-events:none;
+
+    z-index:0;
+
+    visibility:visible !important;
+
+    transition:none !important;
+
+}
+
+/* =========================================================
+   QUESTION CONTENT
+========================================================= */
+
+.question-content-box,
+
+.question-section .buttons{
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.q-header{
+
+    font-size:
+
+        var(--mcq-question-font-size,18px);
+
+    font-weight:bold;
+
+    margin-bottom:15px;
+
+    border-bottom:2px solid #cbd5e1;
+
+    padding-bottom:10px;
+
+    color:#0f172a;
+
+    line-height:1.5;
+
+}
+
+/* =========================================================
+   MCQ OPTIONS
+========================================================= */
+
+.option-label{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:10px;
+
+    padding:12px 15px;
+
+    margin:10px 0;
+
+    border:2px solid transparent;
+
+    border-radius:7px;
+
+    cursor:pointer;
+
+    font-size:
+
+        var(--mcq-font-size,15px);
+
+    line-height:1.5;
+
+    background:rgba(255,255,255,.10);
+
+    position:relative;
+
+    z-index:3;
+
+    outline:none;
+
+    box-shadow:none;
+
+    transform:none;
+
+    transition:
+
+        border-color .15s ease,
+
+        box-shadow .15s ease,
+
+        transform .15s ease,
+
+        background .15s ease;
+
+}
+
+.option-label:hover{
+
+    background:rgba(255,255,255,.10) !important;
+
+    border-color:transparent !important;
+
+    outline:none;
+
+    box-shadow:
+
+        0 0 3px rgba(255,0,0,.45),
+
+        0 0 6px rgba(0,255,0,.35),
+
+        0 0 9px rgba(0,140,255,.30),
+
+        0 0 12px rgba(255,0,255,.25);
+
+    transform:translateY(-1px);
+
+}
+
+.option-label:has(input:checked):hover{
+
+    background:rgba(255,255,255,.10) !important;
+
+    border-color:transparent !important;
+
+    outline:none !important;
+
+    box-shadow:
+
+        0 0 3px rgba(255,0,0,.45),
+
+        0 0 6px rgba(0,255,0,.35),
+
+        0 0 9px rgba(0,140,255,.30),
+
+        0 0 12px rgba(255,0,255,.25);
+
+    transform:translateY(-1px);
+
+}
+
+.option-label:focus-within,
+
+.option-label:has(input:checked){
+
+    background:rgba(255,255,255,.10) !important;
+
+    border-color:transparent !important;
+
+    outline:none !important;
+
+    box-shadow:none !important;
+
+    transform:none !important;
+
+}
+
+.option-label:has(input:checked):hover{
+
+    background:rgba(255,255,255,.10) !important;
+
+    border-color:transparent !important;
+
+    outline:none !important;
+
+    box-shadow:
+
+        0 0 0 2px #ff0000,
+
+        0 0 8px #ff0000,
+
+        0 0 14px #00ff00,
+
+        0 0 20px #008cff,
+
+        0 0 28px #ff00ff;
+
+    transform:translateY(-1px);
+
+}
+
+.question-section::before,
+
+.question-section:hover::before,
+
+.question-section:focus-within::before{
+
+    opacity:.085 !important;
+
+    visibility:visible !important;
+
+    transition:none !important;
+
+}
+
+/* =========================================================
+   RADIO
+========================================================= */
+
+.option-label input{
+
+    margin-top:5px;
+
+    flex-shrink:0;
+
+    cursor:pointer;
+
+}
+
+.option-text{
+
+    font-size:
+
+        var(--mcq-font-size,15px);
+
+    line-height:1.5;
+
+}
+
+/* =========================================================
+   MCQ CONTROLS
+========================================================= */
+
+.mcq-controls{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:12px;
+
+    padding:8px 10px;
+
+    background:#f1f5f9;
+
+    border:1px solid #cbd5e1;
+
+    border-radius:6px;
+
+    flex-wrap:wrap;
+
+}
+
+.font-controls{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    flex-wrap:wrap;
+
+}
+
+.font-controls-title{
+
+    font-size:13px;
+
+    font-weight:bold;
+
+    color:#334155;
+
+}
+
+.font-btn{
+
+    border:1px solid #94a3b8;
+
+    background:#fff;
+
+    color:#0f172a;
+
+    border-radius:5px;
+
+    padding:6px 10px;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+.font-btn:hover{
+
+    background:#e2e8f0;
+
+}
+
+.font-size-display{
+
+    min-width:48px;
+
+    text-align:center;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+    color:#2563eb;
+
+}
+
+/* =========================================================
+   PALETTE ARROWS
+========================================================= */
+
+.palette-toggle-arrow{
+
+    position:absolute;
+
+    left:-1px;
+
+    top:50%;
+
+    transform:
+
+        translateY(-50%);
+
+    width:24px;
+
+    height:54px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:0;
+
+    border:1px solid #94a3b8;
+
+    border-left:none;
+
+    border-radius:0 7px 7px 0;
+
+    background:#fff;
+
+    color:#0f172a;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    z-index:20;
+
+    box-shadow:
+
+        0 2px 6px rgba(0,0,0,.15);
+
+}
+
+.palette-toggle-arrow:hover{
+
+    background:#2563eb;
+
+    color:#fff;
+
+}
+
+.palette-show-arrow{
+
+    position:absolute;
+
+    right:0;
+
+    top:50%;
+
+    transform:
+
+        translateY(-50%);
+
+    width:24px;
+
+    height:54px;
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:0;
+
+    border:1px solid #94a3b8;
+
+    border-right:none;
+
+    border-radius:7px 0 0 7px;
+
+    background:#fff;
+
+    color:#0f172a;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    z-index:20;
+
+    box-shadow:
+
+        0 2px 6px rgba(0,0,0,.15);
+
+}
+
+.palette-show-arrow:hover{
+
+    background:#2563eb;
+
+    color:#fff;
+
+}
+
+/* =========================================================
+   PALETTE HIDDEN
+========================================================= */
+
+.section-view.palette-hidden .question-section{
+
+    width:100%;
+
+    margin-right:10px;
+
+}
+
+.section-view.palette-hidden .palette-section{
+
+    display:none !important;
+
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.buttons{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:20px;
+
+    gap:10px;
+
+}
+
+.btn{
+
+    padding:10px 20px;
+
+    border:none;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+}
+
+.btn-next{
+
+    background:#2563eb;
+
+    color:#fff;
+
+}
+
+.btn-prev{
+
+    background:#64748b;
+
+    color:#fff;
+
+}
+
+.btn-clear{
+
+    background:#f59e0b;
+
+    color:#fff;
+
+}
+
+.btn-submit{
+
+    background:#16a34a;
+
+    color:#fff;
+
+    width:100%;
+
+}
+
+.btn:disabled{
+
+    opacity:.6;
+
+    cursor:not-allowed;
+
+}
+
+/* =========================================================
+   PALETTE
+========================================================= */
+
+.palette-section{
+
+    width:300px;
+
+    height:calc(100vh - 95px);
+
+    background:#fff;
+
+    margin:10px;
+
+    padding:15px;
+
+    border-radius:8px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    flex-shrink:0;
+
+    position:relative;
+
+}
+
+.stats-box{
+
+    background:#f1f5f9;
+
+    padding:10px;
+
+    border-radius:6px;
+
+    margin-bottom:10px;
+
+    font-size:13px;
+
+    line-height:1.7;
+
+}
+
+.stats-box > div{
+
+    display:block;
+
+}
+
+.fs-exit-display{
+
+    color:#dc2626;
+
+    font-weight:900;
+
+}
+
+.palette-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+        repeat(5,1fr);
+
+    gap:8px;
+
+    margin-top:10px;
+
+    overflow-y:auto;
+
+    max-height:
+
+        calc(100vh - 280px);
+
+}
+
+.q-btn{
+
+    padding:8px;
+
+    border:1px solid #ccc;
+
+    background:#e2e8f0;
+
+    font-weight:bold;
+
+    border-radius:4px;
+
+    cursor:pointer;
+
+    font-size:12px;
+
+}
+
+.q-btn.answered{
+
+    background:#22c55e;
+
+    color:#fff;
+
+}
+
+.q-btn.unanswered{
+
+    background:#ef4444;
+
+    color:#fff;
+
+}
+
+.q-btn.active{
+
+    border:2px solid #000;
+
+}
+
+
+/* =========================================================
+   PRACTICAL - 3 COLUMN INTERFACE
+========================================================= */
+
+.prac-container{
+
+    display:grid;
+
+    grid-template-columns:
+        30% 35% 35%;
+
+    width:100%;
+
+    gap:10px;
+
+    padding:10px;
+
+    height:calc(100vh - 80px);
+
+    min-width:0;
+
+    overflow:hidden;
+
+}
+
+
+/* =========================================================
+   COLUMN 1 - PRACTICAL QUESTIONS
+========================================================= */
+
+.prac-sidebar{
+
+    width:100%;
+
+    height:100%;
+
+    background:#fff;
+
+    border-radius:8px;
+
+    padding:15px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+    min-width:0;
+
+    min-height:0;
+
+    overflow-y:auto;
+
+    overflow-x:hidden;
+
+    box-shadow:
+        0 2px 5px rgba(0,0,0,.08);
+
+}
+
+.prac-sidebar > h3{
+
+    flex-shrink:0;
+
+    color:#0f172a;
+
+    font-size:18px;
+
+    border-bottom:2px solid #cbd5e1;
+
+    padding-bottom:10px;
+
+}
+
+
+/* =========================================================
+   PRACTICAL QUESTION CARD
+========================================================= */
+
+.prac-question-card{
+
+    width:100%;
+
+    background:#f8fafc;
+
+    border:1px solid #cbd5e1;
+
+    border-radius:8px;
+
+    padding:10px;
+
+    flex-shrink:0;
+
+}
+
+.prac-question-card .prac-tab-btn{
+
+    width:100%;
+
+}
+
+
+/* =========================================================
+   PRACTICAL TAB BUTTON
+========================================================= */
+
+.prac-tab-btn{
+
+    padding:10px 12px;
+
+    border:1px solid #cbd5e1;
+
+    background:#fff;
+
+    cursor:pointer;
+
+    border-radius:6px;
+
+    text-align:left;
+
+    font-weight:bold;
+
+    color:#0f172a;
+
+    font-size:14px;
+
+}
+
+.prac-tab-btn.active{
+
+    background:#2563eb;
+
+    color:#fff;
+
+    border-color:#2563eb;
+
+}
+
+
+/* =========================================================
+   EXPECTED OUTPUT
+========================================================= */
+
+.expected-output-box{
+
+    width:100%;
+
+    margin-top:10px;
+
+    background:#fff;
+
+    border:1px solid #cbd5e1;
+
+    border-radius:6px;
+
+    padding:8px;
+
+}
+
+.expected-output-title{
+
+    font-size:12px;
+
+    font-weight:900;
+
+    color:#334155;
+
+    margin-bottom:7px;
+
+    text-align:left;
+
+}
+
+.expected-output-image{
+
+    width:100%;
+
+    min-height:120px;
+
+    border:1px dashed #94a3b8;
+
+    border-radius:5px;
+
+    background:#f8fafc;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    overflow:hidden;
+
+}
+
+.expected-output-image img{
+
+    display:block;
+
+    width:100%;
+
+    height:auto;
+
+    max-height:220px;
+
+    object-fit:contain;
+
+}
+
+
+/* =========================================================
+   PRACTICAL EDITOR
+========================================================= */
+
+.prac-editor-box,
+
+.prac-preview-box{
+
+    position:relative;
+
+    overflow:hidden;
+
+    isolation:isolate;
+
+}
+
+.prac-editor-box::before,
+
+.prac-preview-box::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:50%;
+
+    left:50%;
+
+    width:clamp(140px,28vmin,280px);
+
+    height:clamp(140px,28vmin,280px);
+
+    transform:
+
+        translate(-50%,-50%);
+
+    background-image:var(--logo-url);
+
+    background-repeat:no-repeat;
+
+    background-position:center;
+
+    background-size:contain;
+
+    opacity:.055;
+
+    pointer-events:none;
+
+    z-index:0;
+
+}
+
+.prac-editor-box > *,
+
+.prac-preview-box > *{
+
+    position:relative;
+
+    z-index:1;
+
+}
+
+.prac-editor-box{
+
+    width:100%;
+
+    height:100%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    background:#fff;
+
+    border-radius:8px;
+
+    padding:15px;
+
+    min-width:0;
+
+    min-height:0;
+
+    box-shadow:
+        0 2px 5px rgba(0,0,0,.08);
+
+}
+
+.prac-editor-box h4{
+
+    flex-shrink:0;
+
+    color:#0f172a;
+
+    font-size:15px;
+
+    line-height:1.4;
+
+}
+
+textarea.code-input{
+
+    width:100%;
+
+    flex:1;
+
+    min-height:0;
+
+    padding:12px;
+
+    font-family:monospace;
+
+    font-size:14px;
+
+    background:#0f172a;
+
+    color:#38bdf8;
+
+    border-radius:6px;
+
+    resize:none;
+
+    border:1px solid #334155;
+
+    outline:none;
+
+}
+
+textarea.code-input:focus{
+
+    border-color:#2563eb;
+
+    box-shadow:
+        0 0 0 2px rgba(37,99,235,.15);
+
+}
+
+
+/* =========================================================
+   PRACTICAL PREVIEW
+========================================================= */
+
+.prac-preview-box{
+
+    width:100%;
+
+    height:100%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    background:#fff;
+
+    border-radius:8px;
+
+    padding:15px;
+
+    min-width:0;
+
+    min-height:0;
+
+    box-shadow:
+        0 2px 5px rgba(0,0,0,.08);
+
+}
+
+.prac-preview-box h4{
+
+    flex-shrink:0;
+
+    color:#0f172a;
+
+    font-size:15px;
+
+    margin-bottom:10px !important;
+
+}
+
+.preview-div{
+
+    width:100%;
+
+    flex:1;
+
+    min-height:0;
+
+    border:1px solid #cbd5e1;
+
+    border-radius:6px;
+
+    padding:20px 25px;
+
+    background:#fff;
+
+    overflow:auto;
+
+}
+
+.preview-div ol,
+
+.preview-div ul{
+
+    padding-left:25px !important;
+
+    margin-left:0 !important;
+
+}
+
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+.modal-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    background:rgba(0,0,0,.8);
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+
+    z-index:99999;
+
+}
+
+.modal-box{
+
+    background:#fff;
+
+    padding:25px;
+
+    border-radius:12px;
+
+    text-align:center;
+
+    max-width:420px;
+
+    width:90%;
+
+    border:1px solid #e2e8f0;
+
+}
+
+.modal-box h3{
+
+    font-size:18px;
+
+    margin-bottom:12px;
+
+    color:#0f172a;
+
+}
+
+.modal-box p{
+
+    font-size:14px;
+
+    color:#475569;
+
+    margin-bottom:20px;
+
+}
+
+.modal-btn-group{
+
+    display:flex;
+
+    gap:10px;
+
+    justify-content:center;
+
+}
+
+
+/* =========================================================
+   FULLSCREEN WARNING RED STYLE
+========================================================= */
+
+#warningModal .fs-warning-count{
+
+    color:#dc2626;
+
+    font-weight:900;
+
+}
+
+#warningModal.fs-warning-active .modal-box{
+
+    border:3px solid #dc2626;
+
+    box-shadow:
+        0 0 25px rgba(220,38,38,.45);
+
+}
+
+#warningModal.fs-warning-active .modal-box h3{
+
+    color:#dc2626;
+
+    font-weight:900;
+
+}
+
+#warningModal.fs-warning-active .modal-box p{
+
+    color:#991b1b;
+
+}
+
+#warningModal.fs-warning-active
+#fullscreenWarningControls{
+
+    color:#dc2626 !important;
+
+    font-weight:900;
+
+}
+
+
+/* =========================================================
+   SUCCESS POPUP
+========================================================= */
+
+#warningModal.success-modal .modal-box{
+
+    max-width:480px;
+
+}
+
+#warningModal.success-modal .modal-box h3{
+
+    color:#15803d;
+
+    font-size:20px;
+
+}
+
+#warningModal.success-modal .modal-box p{
+
+    line-height:1.7;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:900px){
+
+    .palette-section{
+
+        width:230px;
+
+    }
+
+    .prac-container{
+
+        grid-template-columns:
+            1fr 1fr;
+
+        grid-template-rows:
+            minmax(250px,1fr)
+            minmax(250px,1fr);
+
+        overflow:auto;
+
+        height:calc(100vh - 80px);
+
+    }
+
+    .prac-sidebar{
+
+        grid-column:1;
+
+        grid-row:1 / span 2;
+
+    }
+
+    .prac-editor-box{
+
+        grid-column:2;
+
+        grid-row:1;
+
+    }
+
+    .prac-preview-box{
+
+        grid-column:2;
+
+        grid-row:2;
+
+    }
+
+    .brand-card::before{
+
+        width:clamp(250px,55vmin,460px);
+
+        height:clamp(250px,55vmin,460px);
+
+    }
+
+    .question-section::before{
+
+        width:clamp(260px,46vmin,520px);
+
+        height:clamp(260px,46vmin,520px);
+
+    }
+
+}
+
+@media(max-width:700px){
+
+    .palette-section{
+
+        width:200px;
+
+    }
+
+    .question-section{
+
+        padding:12px;
+
+    }
+
+    .buttons{
+
+        flex-wrap:wrap;
+
+    }
+
+    .prac-container{
+
+        display:flex;
+
+        flex-direction:column;
+
+        overflow:auto;
+
+        height:auto;
+
+    }
+
+    .prac-sidebar,
+    .prac-editor-box,
+    .prac-preview-box{
+
+        width:100%;
+
+        min-height:300px;
+
+        height:auto;
+
+        flex-shrink:0;
+
+    }
+
+    .prac-sidebar{
+
+        max-height:none;
+
+        overflow:visible;
+
+    }
+
+    .exam-header-logo{
+
+        width:40px;
+        height:40px;
+
+    }
+
+    .exam-header-brand{
+
+        gap:8px;
+
+    }
+
+    .header-title{
+
+        font-size:14px;
+
+    }
+
+    .header-sub-title{
+
+        font-size:10px;
+
+    }
+
+    .timer{
+
+        font-size:13px;
+
+        padding:5px 8px;
+
+    }
+
+    .brand-card{
+
+        padding:24px 20px;
+
+    }
+
+    .brand-card::before{
+
+        width:clamp(240px,60vmin,400px);
+
+        height:clamp(240px,60vmin,400px);
+
+    }
+
+    .question-section::before{
+
+        width:clamp(240px,52vmin,430px);
+
+        height:clamp(240px,52vmin,430px);
+
+    }
+
+}
+
+@media(max-width:450px){
+
+    .registration-wrapper{
+
+        padding:10px;
+
+    }
+
+    .brand-card{
+
+        padding:20px 15px;
+
+    }
+
+    .coaching-title{
+
+        font-size:19px;
+
+    }
+
+    .coaching-subtitle{
+
+        font-size:12px;
+
+    }
+
+    .brand-card::before{
+
+        width:clamp(220px,68vw,330px);
+
+        height:clamp(220px,68vw,330px);
+
+    }
+
+    .question-section::before{
+
+        width:clamp(220px,65vmin,360px);
+
+        height:clamp(220px,65vmin,360px);
+
+        opacity:.085 !important;
+
+    }
+
+    .login-logo{
+
+        width:110px;
+        height:110px;
+
+    }
+
+}
+
+@media(min-width:1400px){
+
+    .brand-card::before{
+
+        width:clamp(350px,55vmin,520px);
+
+        height:clamp(350px,55vmin,520px);
+
+    }
+
+    .question-section::before{
+
+        width:clamp(400px,48vmin,600px);
+
+        height:clamp(400px,48vmin,600px);
+
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- =========================================================
+     PASSWORD LOCK
+========================================================= -->
+
+<div id="password-lock-screen">
+
+    <div class="pass-box">
+
+        <img
+            class="login-logo"
+            src="https://drive.google.com/thumbnail?id=1KA_SgVy5_aSFuBg_Y09uLGdS46_14MXX&sz=w1000"
+            alt="Drashti Computer Institute Logo"
+            referrerpolicy="no-referrer"
+        >
+
+        <div class="lock-coaching-name">
+            DRASHTI COMPUTER INSTITUTE
+        </div>
+
+        <h3>🔒 EXAM PORTAL LOCK</h3>
+
+        <input
+            type="password"
+            id="examPasswordInput"
+            placeholder="Enter Access Password"
+            onkeypress="if(event.key==='Enter') verifyPortalPassword()"
+        >
+
+        <button onclick="verifyPortalPassword()">
+            UNLOCK PORTAL
+        </button>
+
+        <div id="pass-error">
+            ⛔ Galat Password! Access Denied.
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     WELCOME
+========================================================= -->
+
+<div
+    class="welcome-overlay"
+    id="welcomeOverlay"
+>
+
+    <div class="welcome-box">
+
+        <h2>
+            DRASHTI COMPUTER INSTITUTE
+        </h2>
+
+        <p>
+            परीक्षा शुरू करने के लिए नीचे दिए हुए साइनअप वाले बटन पर क्लिक करें।
+        </p>
+
+        <button
+            class="btn-signup"
+            onclick="startSignUpProcess()"
+        >
+            SIGN UP
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     FULLSCREEN WARNING
+========================================================= -->
+
+<div
+    class="modal-overlay"
+    id="warningModal"
+>
+
+    <div class="modal-box">
+
+        <h3 id="modalTitle">
+            ⚠️ FULL SCREEN WARNING
+        </h3>
+
+        <p id="modalMsg">
+            आप फुल स्क्रीन मोड से बाहर आ चुके हैं।
+        </p>
+
+        <div
+            id="fullscreenWarningControls"
+            style="color:red;font-weight:bold;margin-bottom:15px;"
+        >
+            Re-enter in:
+            <span id="fullscreenCountdown">90</span>s
+        </div>
+
+        <div
+            class="modal-btn-group"
+            id="warningModalButtons"
+        >
+
+            <button
+                class="btn btn-next"
+                onclick="reEnterFullscreen()"
+            >
+                OK & Re-enter Fullscreen
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     SECTION 1 CONFIRM
+========================================================= -->
+
+<div
+    class="modal-overlay"
+    id="confirmSectionModal"
+>
+
+    <div class="modal-box">
+
+        <h3>
+            📝 Confirm Section Switch
+        </h3>
+
+        <p>
+            Kya aap Section 1 Submit karke Section 2 HTML Practical me jana chahte hain?
+        </p>
+
+        <div class="modal-btn-group">
+
+            <button
+                class="btn btn-prev"
+                onclick="closeConfirmModal()"
+            >
+                Cancel
+            </button>
+
+            <button
+                class="btn btn-next"
+                onclick="proceedToSection2()"
+            >
+                Yes, Proceed
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     FINAL CONFIRM
+========================================================= -->
+
+<div
+    class="modal-overlay"
+    id="confirmFinalModal"
+>
+
+    <div class="modal-box">
+
+        <h3>
+            🏁 Final Submit Confirmation
+        </h3>
+
+        <p>
+            Kya aap poora Exam Final Submit karna chahte hain?
+        </p>
+
+        <div class="modal-btn-group">
+
+            <button
+                class="btn btn-prev"
+                onclick="closeFinalConfirmModal()"
+            >
+                Cancel
+            </button>
+
+            <button
+                class="btn btn-submit"
+                onclick="proceedFinalSubmit(false)"
+            >
+                Yes, Submit Exam
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     REGISTRATION
+========================================================= -->
+
+<div
+    class="registration-wrapper"
+    id="registrationScreen"
+>
+
+    <div class="brand-card">
+
+        <img
+            class="registration-logo"
+            src="https://drive.google.com/thumbnail?id=1KA_SgVy5_aSFuBg_Y09uLGdS46_14MXX&sz=w1000"
+            alt="Drashti Computer Institute Logo"
+            referrerpolicy="no-referrer"
+        >
+
+        <h2 class="coaching-title">
+            DRASHTI COMPUTER INSTITUTE
+        </h2>
+
+        <p class="coaching-subtitle">
+            SEMESTER 2 EXAMINATION
+        </p>
+
+
+        <div class="form-group">
+
+            <label>
+                Candidate Name
+            </label>
+
+            <input
+                type="text"
+                id="candidateName"
+                placeholder="Enter Candidate Name"
+                onfocus="registrationFieldFocus(this)"
+                onblur="registrationFieldBlur(this)"
+                oninput="this.value=this.value.toUpperCase();registrationFieldInput(this)"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Father's Name
+            </label>
+
+            <input
+                type="text"
+                id="fatherName"
+                placeholder="Enter Father's Name"
+                onfocus="registrationFieldFocus(this)"
+                onblur="registrationFieldBlur(this)"
+                oninput="this.value=this.value.toUpperCase();registrationFieldInput(this)"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Mobile Number
+            </label>
+
+            <input
+                type="text"
+                id="mobileNo"
+                placeholder="Enter 10-Digit Mobile Number"
+                maxlength="10"
+                inputmode="numeric"
+                autocomplete="off"
+                onfocus="registrationFieldFocus(this)"
+                onblur="registrationFieldBlur(this)"
+                oninput="validateMobile(this);registrationFieldInput(this)"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Batch Timing
+            </label>
+
+            <select
+                id="batchTiming"
+                onfocus="registrationFieldFocus(this)"
+                onblur="registrationFieldBlur(this)"
+                onchange="registrationFieldInput(this)"
+            >
+
+                <option value="" disabled selected>
+                    Select Batch Timing
+                </option>
+
+                <option value="08:00 AM - 09:00 AM">
+                    08:00 AM - 09:00 AM
+                </option>
+
+                <option value="09:00 AM - 10:00 AM">
+                    09:00 AM - 10:00 AM
+                </option>
+
+                <option value="10:00 AM - 11:00 AM">
+                    10:00 AM - 11:00 AM
+                </option>
+
+                <option value="02:00 PM - 03:00 PM">
+                    02:00 PM - 03:00 PM
+                </option>
+
+                <option value="04:00 PM - 05:00 PM">
+                    04:00 PM - 05:00 PM
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button
+            class="btn-start"
+            onclick="startExam()"
+        >
+            Start Test
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     EXAM INTERFACE
+========================================================= -->
+
+<div id="exam-interface">
+
+    <header>
+
+        <div class="exam-header-brand">
+
+            <img
+                class="exam-header-logo"
+                src="https://drive.google.com/thumbnail?id=1KA_SgVy5_aSFuBg_Y09uLGdS46_14MXX&sz=w1000"
+                alt="DCI Logo"
+                referrerpolicy="no-referrer"
+            >
+
+            <div>
+
+                <div
+                    class="header-title"
+                    id="headerTitle"
+                >
+                    DRASHTI COMPUTER INSTITUTE - SECTION 1
+                </div>
+
+                <div
+                    class="header-sub-title"
+                    id="headerSub"
+                >
+                    Objective Exam (100 Questions)
+                </div>
+
+            </div>
+
+        </div>
+
+        <div
+            class="timer"
+            id="timer"
+        >
+            Section 1 Time: 40:00
+        </div>
+
+    </header>
+
+
+    <div class="container">
+
+
+        <!-- =====================================================
+             SECTION 1
+        ====================================================== -->
+
+        <div
+            class="section-view active"
+            id="sec1View"
+        >
+
+            <div class="question-section">
+
+                <div class="question-content-box">
+
+                    <div class="mcq-controls">
+
+                        <div class="font-controls">
+
+                            <span class="font-controls-title">
+                                MCQ Font:
+                            </span>
+
+                            <button
+                                type="button"
+                                class="font-btn"
+                                onclick="changeMCQFont(-1)"
+                            >
+                                A−
+                            </button>
+
+                            <button
+                                type="button"
+                                class="font-btn"
+                                onclick="resetMCQFont()"
+                            >
+                                Default
+                            </button>
+
+                            <button
+                                type="button"
+                                class="font-btn"
+                                onclick="changeMCQFont(1)"
+                            >
+                                A+
+                            </button>
+
+                            <span
+                                class="font-size-display"
+                                id="mcqFontSizeDisplay"
+                            >
+                                15px
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="q-header"
+                        id="question-text"
+                    >
+                        Question loading...
+                    </div>
+
+                    <div
+                        class="options"
+                        id="options-container"
+                    ></div>
+
+                </div>
+
+
+                <div class="buttons">
+
+                    <button
+                        class="btn btn-prev"
+                        onclick="prevQuestion()"
+                    >
+                        Previous
+                    </button>
+
+                    <button
+                        class="btn btn-clear"
+                        onclick="clearResponse()"
+                    >
+                        Clear Response
+                    </button>
+
+                    <button
+                        class="btn btn-next"
+                        onclick="nextQuestion()"
+                    >
+                        Save & Next
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- SECTION 1 PALETTE -->
+
+            <div
+                class="palette-section"
+                id="questionPaletteSection"
+            >
+
+                <button
+                    type="button"
+                    class="palette-toggle-arrow"
+                    id="paletteHideArrow"
+                    onclick="toggleQuestionPalette()"
+                    title="Hide Question Palette"
+                    aria-label="Hide Question Palette"
+                >
+                    ▶
+                </button>
+
+
+                <div class="stats-box">
+
+                    <div>
+                        <b>Candidate:</b>
+                        <span id="disp-name">-</span>
+                    </div>
+
+                    <div>
+                        <b>Batch Time:</b>
+                        <span id="disp-batch">-</span>
+                    </div>
+
+                    <div>
+                        <b>Attempted:</b>
+                        <span id="attempted-q">0</span> / 100
+                    </div>
+
+                    <div>
+                        <b>FS Exit Count:</b>
+                        <span
+                            id="fs-exit-count"
+                            class="fs-exit-display"
+                        >
+                            0 / 3
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <h3>
+                    Question Palette
+                </h3>
+
+                <div
+                    class="palette-grid"
+                    id="palette"
+                ></div>
+
+                <div
+                    style="margin-top:auto;padding-top:15px;"
+                >
+
+                    <button
+                        class="btn btn-submit"
+                        id="section1SubmitBtn"
+                        onclick="askSubmitSection1()"
+                    >
+                        Submit Section 1
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- PALETTE SHOW ARROW -->
+
+            <button
+                type="button"
+                class="palette-show-arrow"
+                id="paletteShowArrow"
+                onclick="toggleQuestionPalette()"
+                title="Show Question Palette"
+                aria-label="Show Question Palette"
+            >
+                ◀
+            </button>
+
+        </div>
+
+
+        <!-- =====================================================
+             SECTION 2
+             NEW 3-COLUMN INTERFACE
+        ====================================================== -->
+
+        <div
+            class="section-view"
+            id="sec2View"
+        >
+
+            <div class="prac-container">
+
+
+                <!-- =================================================
+                     COLUMN 1 - PRACTICAL QUESTIONS
+                ================================================== -->
+
+                <div class="prac-sidebar">
+
+                    <h3>
+                        PRACTICAL QUESTIONS
+                    </h3>
+
+
+                    <!-- Q1 -->
+
+                    <div class="prac-question-card">
+
+                        <button
+                            class="prac-tab-btn active"
+                            id="pTab1"
+                            onclick="switchPracQuestion(0)"
+                        >
+                            Q1. Create a webpage
+                        </button>
+
+
+                        <div class="expected-output-box">
+
+                            <div class="expected-output-title">
+                                EXPECTED OUTPUT - Q1
+                            </div>
+
+                            <div class="expected-output-image">
+
+                                <img
+                                    src=""
+                                    alt="Expected Output Q1"
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Q2 -->
+
+                    <div class="prac-question-card">
+
+                        <button
+                            class="prac-tab-btn"
+                            id="pTab2"
+                            onclick="switchPracQuestion(1)"
+                        >
+                            Q2. Create a webpage
+                        </button>
+
+
+                        <div class="expected-output-box">
+
+                            <div class="expected-output-title">
+                                EXPECTED OUTPUT - Q2
+                            </div>
+
+                            <div class="expected-output-image">
+
+                                <img
+                                    src=""
+                                    alt="Expected Output Q2"
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Q3 -->
+
+                    <div class="prac-question-card">
+
+                        <button
+                            class="prac-tab-btn"
+                            id="pTab3"
+                            onclick="switchPracQuestion(2)"
+                        >
+                            Q3. Create a webpage
+                        </button>
+
+
+                        <div class="expected-output-box">
+
+                            <div class="expected-output-title">
+                                EXPECTED OUTPUT - Q3
+                            </div>
+
+                            <div class="expected-output-image">
+
+                                <img
+                                    src=""
+                                    alt="Expected Output Q3"
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        style="margin-top:auto;padding-top:5px;"
+                    >
+
+                        <button
+                            class="btn btn-submit"
+                            id="finalSubBtn"
+                            onclick="askSubmitFinalExam()"
+                        >
+                            Submit Complete Exam
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     COLUMN 2 - CODE EDITOR
+                ================================================== -->
+
+                <div class="prac-editor-box">
+
+                    <h4
+                        id="pracQTitle"
+                        style="margin-bottom:10px;"
+                    >
+                        Q1. Write HTML code to create a 3x3 Table with borders:
+                    </h4>
+
+
+                    <textarea
+                        class="code-input"
+                        id="pracCodeEditor"
+                        oninput="updatePracPreview()"
+                        spellcheck="false"
+                        placeholder="Write your HTML code here..."
+                    ></textarea>
+
+                </div>
+
+
+                <!-- =================================================
+                     COLUMN 3 - LIVE OUTPUT
+                ================================================== -->
+
+                <div class="prac-preview-box">
+
+                    <h4>
+                        LIVE OUTPUT
+                    </h4>
+
+
+                    <div
+                        class="preview-div"
+                        id="pracLivePreview"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   BASIC SETTINGS
+========================================================= */
+
+const PORTAL_PASSWORD = "DCI2026";
+
+const SCRIPT_URL_1 =
+"https://script.google.com/macros/s/AKfycbzZMLTJx-fZA1bGE3Jj-umcwnKk-q7dSXkmWp0rqn7fNywNHC2WEvAyFEKQyGFeDVZz/exec";
+
+const SCRIPT_URL_2 =
+"https://script.google.com/macros/s/YOUR_SCRIPT_ID_2/exec";
+
+const SCRIPT_URL_3 =
+"https://script.google.com/macros/s/YOUR_SCRIPT_ID_3/exec";
+
+
+/* =========================================================
+   EXAM STATE
+========================================================= */
+
+let currentSection = 1;
+
+let sec1Time = 40 * 60;
+
+let sec2Time = 20 * 60;
+
+let timerInterval = null;
+
+let examStarted = false;
+
+let isSubmitted = false;
+
+let isFinalSubmitting = false;
+
+
+/* =========================================================
+   MCQ FONT
+========================================================= */
+
+let mcqFontSize = 15;
+
+const DEFAULT_MCQ_FONT_SIZE = 15;
+
+const MIN_MCQ_FONT_SIZE = 12;
+
+const MAX_MCQ_FONT_SIZE = 28;
+
+
+function applyMCQFontSize(){
+
+    document.documentElement.style.setProperty(
+        "--mcq-font-size",
+        mcqFontSize + "px"
+    );
+
+    document.documentElement.style.setProperty(
+        "--mcq-question-font-size",
+        (mcqFontSize + 3) + "px"
+    );
+
+    const display =
+        document.getElementById(
+            "mcqFontSizeDisplay"
+        );
+
+    if(display){
+
+        display.innerText =
+            mcqFontSize + "px";
+
+    }
+
+}
+
+
+function changeMCQFont(change){
+
+    mcqFontSize += change;
+
+    if(mcqFontSize < MIN_MCQ_FONT_SIZE){
+
+        mcqFontSize =
+            MIN_MCQ_FONT_SIZE;
+
+    }
+
+    if(mcqFontSize > MAX_MCQ_FONT_SIZE){
+
+        mcqFontSize =
+            MAX_MCQ_FONT_SIZE;
+
+    }
+
+    applyMCQFontSize();
+
+}
+
+
+function resetMCQFont(){
+
+    mcqFontSize =
+        DEFAULT_MCQ_FONT_SIZE;
+
+    applyMCQFontSize();
+
+}
+
+
+/* =========================================================
+   REGISTRATION FIELD CONTROL
+========================================================= */
+
+function registrationFieldFocus(field){
+
+    if(!field){
+        return;
+    }
+
+    field.classList.add(
+        "typing-active"
+    );
+
+}
+
+
+function registrationFieldInput(field){
+
+    if(!field){
+        return;
+    }
+
+    if(document.activeElement === field){
+
+        field.classList.add(
+            "typing-active"
+        );
+
+    }
+
+}
+
+
+function registrationFieldBlur(field){
+
+    if(!field){
+        return;
+    }
+
+    field.classList.remove(
+        "typing-active"
+    );
+
+}
+
+
+/* =========================================================
+   QUESTION PALETTE
+========================================================= */
+
+let questionPaletteVisible = true;
+
+
+/* =========================================================
+   PALETTE ARROW CHANGE
+========================================================= */
+
+function toggleQuestionPalette(){
+
+    const sec1 =
+        document.getElementById(
+            "sec1View"
+        );
+
+    const palette =
+        document.getElementById(
+            "questionPaletteSection"
+        );
+
+    const hideArrow =
+        document.getElementById(
+            "paletteHideArrow"
+        );
+
+    const showArrow =
+        document.getElementById(
+            "paletteShowArrow"
+        );
+
+
+    if(!sec1 || !palette){
+        return;
+    }
+
+
+    questionPaletteVisible =
+        !questionPaletteVisible;
+
+
+    if(questionPaletteVisible){
+
+        sec1.classList.remove(
+            "palette-hidden"
+        );
+
+        palette.style.display="";
+
+
+        if(hideArrow){
+
+            hideArrow.style.display =
+                "flex";
+
+        }
+
+
+        if(showArrow){
+
+            showArrow.style.display =
+                "none";
+
+        }
+
+    }else{
+
+        sec1.classList.add(
+            "palette-hidden"
+        );
+
+        palette.style.display="none";
+
+
+        if(hideArrow){
+
+            hideArrow.style.display =
+                "none";
+
+        }
+
+
+        if(showArrow){
+
+            showArrow.style.display =
+                "flex";
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   FULLSCREEN WARNING STATE
+========================================================= */
+
+let warningCount = 0;
+
+let fullscreenWarningTimer = null;
+
+let fullscreenWarningSeconds = 90;
+
+let fullscreenWarningActive = false;
+
+let fullscreenViolationActive = false;
+
+
+/* =========================================================
+   STUDENT / QUESTION STATE
+========================================================= */
+
+let studentData = {};
+
+let userAnswers = [];
+
+let visited = [];
+
+let currentQ = 0;
+
+let questions = [];
+
+
+/* =========================================================
+   PRACTICAL QUESTIONS
+========================================================= */
+
+const pracQuestions = [
+
+    {
+        id:1,
+        title:
+        "Q1. Write HTML code to create a 3x3 Table with borders:"
+    },
+
+    {
+        id:2,
+        title:
+        "Q2. Write HTML code to create a Form with Name, Email & Submit Button:"
+    },
+
+    {
+        id:3,
+        title:
+        "Q3. Write HTML code to create an Ordered List of 3 Course Names:"
+    }
+
+];
+
+let pracCodes = ["","",""];
+
+let currentPracQ = 0;
+
+
+/* =========================================================
+   SHUFFLE
+========================================================= */
+
+function shuffleArray(array){
+
+    for(
+        let i=array.length-1;
+        i>0;
+        i--
+    ){
+
+        const j =
+            Math.floor(
+                Math.random()*(i+1)
+            );
+
+        [
+            array[i],
+            array[j]
+        ] =
+        [
+            array[j],
+            array[i]
+        ];
+
+    }
+
+    return array;
+
+}
+
+
+/* =========================================================
+   RANDOM QUESTION PAPER
+========================================================= */
+
+function createRandomQuestionPaper(){
+
+    questions =
+        rawQuestions.map(
+            originalQuestion => {
+
+                let optionObjects =
+                    originalQuestion.options.map(
+                        (optionText,index)=>({
+
+                            text:optionText,
+
+                            correct:
+                                index ===
+                                originalQuestion.ans
+
+                        })
+                    );
+
+
+                shuffleArray(
+                    optionObjects
+                );
+
+
+                const newAnswerIndex =
+                    optionObjects.findIndex(
+                        option =>
+                            option.correct
+                    );
+
+
+                return {
+
+                    id:
+                        originalQuestion.id,
+
+                    q:
+                        originalQuestion.q,
+
+                    options:
+                        optionObjects.map(
+                            option =>
+                                option.text
+                        ),
+
+                    ans:
+                        newAnswerIndex
+
+                };
+
+            }
+        );
+
+
+    shuffleArray(
+        questions
+    );
+
+}
+
+
+/* =========================================================
+   RAW QUESTIONS
+   ORIGINAL 100 QUESTIONS - UNCHANGED
+========================================================= */
+
+const rawQuestions = [
+{id:1,q:"HTML ka full form kya hai?",options:["Hyper Text Markup Language","High Text Marking Language","Hyperlink Text Management Language","Home Text Markup Language"],ans:0},
+{id:2,q:"HTML mein sabse badi heading ke liye kaunsa tag use kiya jata hai?",options:["<head>","<h6>","<h1>","<heading>"],ans:2},
+{id:3,q:"HTML mein line break insert karne ke liye kaunsa HTML element use kiya jata hai?",options:["<break>","<br>","<lb>","<newline>"],ans:1},
+{id:4,q:"HTML mein hyperlink banane ke liye kaunsa tag use kiya jata hai?",options:["<a>","<link>","<href>","<url>"],ans:0},
+{id:5,q:"HTML mein numbered list kaise banate hain?",options:["<ul>","<ol>","<list>","<dl>"],ans:1},
+{id:6,q:"End tag ko indicate karne ke liye kaunsa character use hota hai?",options:["*","/","<","^"],ans:1},
+{id:7,q:"HTML mein image insert karne ke liye kaise likhte hain?",options:['<img src="image.jpg">','<image href="image.jpg">','<picture src="image.jpg">','<img alt="image.jpg">'],ans:0},
+{id:8,q:"HTML में सबसे पहला टैग कौन सा होता है?",options:["<head>","<body>","<html>","<title>"],ans:2},
+{id:9,q:"HTML mein unordered list banane ke liye kaunsa tag use kiya jata hai?",options:["<ol>","<ul>","<li>","<list>"],ans:1},
+{id:10,q:"HTML mein hyperlink create karne ke liye correct code kya hai?",options:['<a href="http://www.google.com">Google</a>','<a url="http://www.google.com">Google</a>','<a name="http://www.google.com">Google</a>','<link src="http://www.google.com">Google</link>'],ans:0},
+{id:11,q:"HTML mein table create karne ke liye kaunsa tag use kiya jata hai?",options:["<table>","<tbl>","<tab>","<grid>"],ans:0},
+{id:12,q:"List item define karne ke liye kaunsa tag use hota hai?",options:["<item>","<li>","<list>","<ul>"],ans:1},
+{id:13,q:"HTML file ki extension kya hoti hai?",options:[".html / .htm",".doc",".txt",".web"],ans:0},
+{id:14,q:"HTML mein comment likhne ke liye kaunsa tag use hota hai?",options:["<!-- Comment -->","// Comment","/* Comment */","# Comment"],ans:0},
+{id:15,q:"Background color set karne ke liye kaunsa attribute use hota hai?",options:["color","bgcolor","bg-color","background"],ans:1},
+{id:16,q:"Horizontal line ke liye kaunsa tag use hota hai?",options:["<line>","<hr>","<hl>","<border>"],ans:1},
+{id:17,q:"Marquee tag is used for..?",options:["Text को बोल्ड करने के लिए","Text या Image को स्क्रॉल/मूव करने के लिए","Image इंसर्ट करने के लिए","Table बनाने के लिए"],ans:1},
+{id:18,q:"<TEXTAREA> टैग के अंदर टेक्स्ट ...... के रूप मे कार्य करता है ?",options:["Multi-line Plain Text Input","Form Button","Hyperlink","Dropdown List"],ans:0},
+{id:19,q:"SUPERSCRIPT TEXT ke liye kaunsa tag use hota hai?",options:["<sub>","<sup>","<super>","<top>"],ans:1},
+{id:20,q:"Inmein se kaunsa ek Container Tag hai?",options:["<br>","<hr>","<img>","<body>"],ans:3},
+{id:21,q:"How to create a Checkbox in HTML?",options:['<input type="checkbox">',"<checkbox>",'<input type="check">',"<check>"],ans:0},
+{id:22,q:"<i> tag ke alawa text ko italics mein dikhane ke liye kaunsa tag use hota hai?",options:["<em>","<italic>","<slant>","<style>"],ans:0},
+{id:23,q:"<b> tag ke alawa text ko bold dikhane ke liye kaunsa tag use hota hai?",options:["<strong>","<bold>","<dark>","<emp>"],ans:0},
+{id:24,q:"All HTML tags ko kis brackets ke andar likha jata hai?",options:["Curly Brackets { }","Square Brackets [ ]","Angle Brackets < >","Parentheses ( )"],ans:2},
+{id:25,q:"Combo box (drop down box) create karne ke liye kaunsa tag use karenge?",options:["<list>","<select>","<dropdown>","<combo>"],ans:1},
+{id:26,q:"Do cells ke beech space set karne ke liye kaunsa attribute use hota hai?",options:["padding","cellspacing","cellpadding","border"],ans:1},
+{id:27,q:"<td> ya <th> mein 2 ya usse zyada cells ko vertically merge karne ke liye kaunsa attribute use hota hai?",options:["rowspan","colspan","vertical-merge","spanrow"],ans:0},
+{id:28,q:"<td> ya <th> mein 2 ya usse zyada cells ko horizontally merge karne ke liye kaunsa attribute use hota hai?",options:["rowspan","colspan","horizontal-merge","spancol"],ans:1},
+{id:29,q:"Har cell ke andar space add karne ke liye kaunsa attribute use hota hai?",options:["cellspacing","cellpadding","space","padding"],ans:1},
+{id:30,q:"Text ko subscript karne ke liye kaunsa tag use hota hai?",options:["<sup>","<sub>","<under>","<script>"],ans:1},
+{id:31,q:"Document mein deleted text ko define karne ke liye kaunsa element use hota hai?",options:["<del>","<remove>","<cut>","<delete>"],ans:0},
+{id:32,q:"HTML ka invention kisne kiya tha?",options:["Tim Berners-Lee","Bill Gates","Dennis Ritchie","Steve Jobs"],ans:0},
+{id:33,q:"Inmein se kaunsa Text Editor nahi hai?",options:["Notepad","Notepad++","MS Paint","Sublime Text"],ans:2},
+{id:34,q:"UL attribute ke liye kitne possible options hote hain?",options:["2","3 (disc, circle, square)","5","4"],ans:1},
+{id:35,q:"Inmein se kaunsa Unordered List ka type nahi hai?",options:["disc","circle","square","decimal"],ans:3},
+{id:36,q:"Tally Prime mein date change karne ke liye kaunsi shortcut key use hoti hai?",options:["F1","F2","F3","F4"],ans:1},
+{id:37,q:"How can you create a new company in Tally?",options:["Alt + F3 -> Create Company","Alt + F1","Ctrl + F3","F11"],ans:0},
+{id:38,q:"Tally mein bank account mein cash deposit karne ke liye kaunsa voucher use hota hai?",options:["Payment","Receipt","Contra (F4)","Journal"],ans:2},
+{id:39,q:"TALLY ka full form kya hai?",options:["Transactions Allowed in a Linear Yard","Total Accounting Ledger List Yearly","Transactions Analysis Legal Logistics","None of these"],ans:0},
+{id:40,q:"Voucher entry ke time new ledger create karne ke liye kaunsi shortcut key use hoti hai?",options:["Alt + C","Ctrl + C","Alt + L","Ctrl + L"],ans:0},
+{id:41,q:"'Purchase' voucher option kahan milta hai?",options:["F8","F9","F5","F6"],ans:1},
+{id:42,q:"Tally ko quit karne ke liye shortcut key kya hai?",options:["Esc / Ctrl + Q","Alt + X","Ctrl + X","Alt + End"],ans:0},
+{id:43,q:"Tally ERP 9 mein 'Credit Note' voucher option kahan milta hai?",options:["Ctrl + F8","Ctrl + F9","Alt + F9","Alt + F8"],ans:1},
+{id:44,q:"Tally ERP 9 mein 'Debit Note' voucher option kahan milta hai?",options:["Ctrl + F9","Ctrl + F5","Alt + F9","Ctrl + F4"],ans:1},
+{id:45,q:"Tally ERP 9 mein Calculator ke liye kaunsi shortcut key use hoti hai?",options:["Ctrl + C","Ctrl + N","Alt + C","Ctrl + M"],ans:1},
+{id:46,q:"VAT ka full form kya hai?",options:["Value Added Tax","Value Applied Tax","Very Addition Tax","Variable Asset Tax"],ans:0},
+{id:47,q:"Rates & Taxes kis Group ke under aata hai?",options:["Direct Expenses","Duties & Taxes","Indirect Expenses","Current Assets"],ans:1},
+{id:48,q:"Tally mein 'Credit Note' aur 'Debit Note' voucher type mein kiski entry record ki jati hai?",options:["Sales Return & Purchase Return","Cash & Bank Transactions","Assets & Liabilities","Income & Expenses"],ans:0},
+{id:49,q:"Tally mein features dekhne ke liye kaunsi shortcut key use hoti hai?",options:["F11","F12","F1","Alt + F11"],ans:0},
+{id:50,q:"Salary Account inmein se kis head ke under aata hai?",options:["Direct Expenses","Indirect Expenses","Indirect Incomes","Capital Account"],ans:1},
+{id:51,q:"Tally mein sales voucher create karne ke liye kaunsi key press karni hoti hai?",options:["F5","F6","F8","F9"],ans:2},
+{id:52,q:"Kisi company ka data Excel, HTML ya XML format mein export karne ke liye kaunsi shortcut key use hoti hai?",options:["Alt + E","Ctrl + E","Alt + P","Ctrl + P"],ans:0},
+{id:53,q:"GST ka full form kya hai?",options:["Goods and Services Tax","Government Sales Tax","Grand Service Tax","Goods Supply Tax"],ans:0},
+{id:54,q:"All expenses and losses always having ____________",options:["Credit Balance","Debit Balance","Zero Balance","Both A and B"],ans:1},
+{id:55,q:"Tally.ERP 9 mein simple entry aur item-wise entry mode ke beech switch karne ke liye kya use hota hai?",options:["Alt + I","Ctrl + I","Alt + V","F12"],ans:0},
+{id:56,q:"Voucher entry ke time ledger ko edit karne ke liye kaunsi shortcut key use hoti hai?",options:["Ctrl + Enter","Alt + Enter","Shift + Enter","Alt + E"],ans:0},
+{id:57,q:"Voucher entry ke time To/By ki jagah Dr/Cr aur vice versa use karne ke liye kya press karte hain?",options:["F11","F12","Alt + F12","Ctrl + F12"],ans:1},
+{id:58,q:"Tally ERP 9 mein ERP ka full form kya hai?",options:["Enterprise Resource Planning","Economic Resource Process","Enterprise Record Program","Equipment Resource Planning"],ans:0},
+{id:59,q:"Tally mein default ledger kaunsa hota hai?",options:["Cash A/c & Profit & Loss A/c","Bank A/c","Capital A/c","Sales A/c"],ans:0},
+{id:60,q:"Tally mein expenses record karne ke liye kaunsa voucher type use hota hai?",options:["Receipt","Payment (F5)","Contra","Journal"],ans:1},
+{id:61,q:"Tally mein kitne groups pre-defined hote hain?",options:["15","28","30","25"],ans:1},
+{id:62,q:"Tally mein inventory groups create karne ke liye kya use kiya jata hai?",options:["Accounts Info","Inventory Info -> Stock Groups","Payroll Info","Features"],ans:1},
+{id:63,q:"Tally Prime mein default date format kya hota hai?",options:["DD-MM-YYYY","MM-DD-YYYY","YYYY-MM-DD","DD/MM/YY"],ans:0},
+{id:64,q:"Tally mein voucher delete kaise karte hain?",options:["Alt + D","Ctrl + D","Delete Key","Alt + X"],ans:0},
+{id:65,q:"Tally mein customers se outstanding payments ko track kaise karte hain?",options:["Display -> Statements of Accounts -> Outstandings -> Receivables","Accounts Info -> Ledgers","Balance Sheet","Profit & Loss Account"],ans:0},
+{id:66,q:"GST number mein kitne digits hote hain?",options:["10","12","15","16"],ans:2},
+{id:67,q:"Tally mein created Groups of Ledgers mein changes karne ke liye kaunsa option use hota hai?",options:["Create","Display","Alter","Change"],ans:2},
+{id:68,q:"Tally mein accounts ke kitne types hote hain?",options:["2","3","4","5"],ans:1},
+{id:69,q:"Tally mein voucher ke kitne types hote hain?",options:["10","18","24","28"],ans:2},
+{id:70,q:"Tally mein interest received, commission received ya rent received ko kahan record karte hain?",options:["Payment Voucher","Receipt Voucher (F6)","Journal Voucher","Contra Voucher"],ans:1},
+{id:71,q:"Photoshop files usually kis extension mein save hoti hain?",options:[".PSD",".DOC",".PDF",".TXT"],ans:0},
+{id:72,q:"Independent pieces of paper create karne ke liye, jinhe separately edit kiya ja sakta hai, kis cheez ke saath kaam karte hain?",options:["Tools","Layers","Filters","Channels"],ans:1},
+{id:73,q:"Free transformation perform karne ke liye kaunsi shortcut key use hoti hai?",options:["Ctrl + T","Ctrl + F","Alt + T","Shift + T"],ans:0},
+{id:74,q:"Copy ke through new layer create karne ke liye kya use karte hain?",options:["Ctrl + J","Ctrl + C","Ctrl + N","Ctrl + V"],ans:0},
+{id:75,q:"Layers panel ko show/hide karne ki shortcut key kya hai?",options:["F5","F7","F8","F11"],ans:1},
+{id:76,q:"Magic Wand Tool ko activate karne ki shortcut key kya hai?",options:["W","M","V","L"],ans:0},
+{id:77,q:"Crop Tool ko activate karne ki shortcut key kya hai?",options:["C","R","X","K"],ans:0},
+{id:78,q:"Curve dialog box open karne ki shortcut key kya hai?",options:["Ctrl + L","Ctrl + M","Ctrl + U","Ctrl + C"],ans:1},
+{id:79,q:"Photoshop mein image se background remove karne mein kaunsa tool help karta hai?",options:["Magic Wand / Background Eraser Tool","Pen Tool","Move Tool","Type Tool"],ans:0},
+{id:80,q:"Windows OS mein Photoshop mein Multiple Steps Undo kaise karte hain?",options:["Ctrl + Alt + Z","Ctrl + Shift + Z","Alt + Z","Shift + Backspace"],ans:0},
+{id:81,q:"CMYK ka meaning kya hai?",options:["Cyan, Magenta, Yellow, Key (Black)","Color, Medium, Yellow, Key","Cyan, Green, Yellow, Black","Central Magenta Yellow Key"],ans:0},
+{id:82,q:"Move Tool ko activate karne ki shortcut key kya hai?",options:["M","V","A","Spacebar"],ans:1},
+{id:83,q:"RGB ka full form kya hai?",options:["Red, Green, Blue","Real, Gray, Black","Red, Yellow, Blue","Right, Green, Blue"],ans:0},
+{id:84,q:"Layer ke ek area ko doosre area mein copy karne ke liye kaunsa tool use hota hai?",options:["Clone Stamp Tool","Healing Brush Tool","Eraser Tool","Brush Tool"],ans:0},
+{id:85,q:"Foreground ya background squares mein new color select karne ke liye kaunsa tool use hota hai?",options:["Eyedropper Tool / Color Picker","Paint Bucket","Gradient Tool","Pencil Tool"],ans:0},
+{id:86,q:"PageMaker ko open karne ke liye Run dialog box mein kya type karte hain?",options:["pm70","pagemaker","adobe pm","winpm"],ans:0},
+{id:87,q:"PageMaker mein page orientation ke kitne types hote hain?",options:["2 (Tall and Wide)","3","4","1"],ans:0},
+{id:88,q:"PageMaker mein minimum font size kitna hota hai?",options:["4 pt","6 pt","8 pt","1 pt"],ans:0},
+{id:89,q:"PageMaker ki file extension kya hoti hai?",options:[".pmd",".docx",".pdm",".pptx"],ans:0},
+{id:90,q:"Font size increase karne ke liye shortcut key kya hai?",options:["Ctrl + Shift + >","Ctrl + Shift + <","Alt + Shift + >","Ctrl + Alt + >"],ans:0},
+{id:91,q:"PageMaker mein Edit Story ki shortcut key kya hai?",options:["Ctrl + E","Ctrl + S","Alt + E","Shift + E"],ans:0},
+{id:92,q:"PageMaker mein colors show karne ke liye shortcut key kya hai?",options:["Ctrl + J","Ctrl + C","Alt + J","Shift + C"],ans:0},
+{id:93,q:"Bullets ka use kis menu se kar sakte hain?",options:["Element Menu (Utilities)","File Menu","View Menu","Window Menu"],ans:0},
+{id:94,q:"Control Palette ko __ menu se show karte hain.",options:["Window Menu","View Menu","Layout Menu","Edit Menu"],ans:0},
+{id:95,q:"Agar file ko .pdf extension mein save karna ho, to kaunsa option use kiya ja sakta hai?",options:["Export -> Adobe PDF","Save As","Print","Publish"],ans:0},
+{id:96,q:"Star create karne ke liye kis tool ka use kar sakte hain?",options:["Polygon Tool","Rectangle Tool","Ellipse Tool","Line Tool"],ans:0},
+{id:97,q:"Same distance par multiple duplicate objects create karne mein kaunsa option help karta hai?",options:["Paste Multiple","Copy Paste","Duplicate All","Repeat Paste"],ans:0},
+{id:98,q:"Object aur text properties change karne ke liye kaunsi palette use karte hain?",options:["Control Palette","Color Palette","Style Palette","Master Page Palette"],ans:0},
+{id:99,q:"PageMaker ke kis menu mein font option hota hai?",options:["Type Menu","Element Menu","Layout Menu","Utilities Menu"],ans:0},
+{id:100,q:"PageMaker mein Edit Story option kis menu mein milta hai?",options:["Edit Menu","File Menu","View Menu","Utilities Menu"],ans:0}
+];
+
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+
+function verifyPortalPassword(){
+
+    const input =
+        document.getElementById(
+            "examPasswordInput"
+        );
+
+    if(
+        input.value ===
+        PORTAL_PASSWORD
+    ){
+
+        document.getElementById(
+            "password-lock-screen"
+        ).style.display="none";
+
+        document.getElementById(
+            "welcomeOverlay"
+        ).style.display="flex";
+
+        openFullScreen();
+
+    }else{
+
+        document.getElementById(
+            "pass-error"
+        ).style.display="block";
+
+    }
+
+}
+
+
+/* =========================================================
+   SIGN UP
+========================================================= */
+
+function startSignUpProcess(){
+
+    openFullScreen();
+
+    document.getElementById(
+        "welcomeOverlay"
+    ).style.display="none";
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+function validateMobile(input){
+
+    input.value =
+        input.value.replace(
+            /[^0-9]/g,
+            ''
+        );
+
+}
+
+
+/* =========================================================
+   FULLSCREEN HELPER
+========================================================= */
+
+function isCurrentlyFullscreen(){
+
+    return !!(
+        document.fullscreenElement ||
+        document.webkitFullscreenElement
+    );
+
+}
+
+
+/* =========================================================
+   OPEN FULLSCREEN
+========================================================= */
+
+function openFullScreen(){
+
+    const elem =
+        document.documentElement;
+
+    if(isCurrentlyFullscreen()){
+        return;
+    }
+
+    if(elem.requestFullscreen){
+
+        elem.requestFullscreen()
+        .catch(()=>{});
+
+    }else if(
+        elem.webkitRequestFullscreen
+    ){
+
+        try{
+
+            elem.webkitRequestFullscreen();
+
+        }catch(e){
+
+            console.log(e);
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   START EXAM
+========================================================= */
+
+function startExam(){
+
+    studentData={
+
+        name:
+            document.getElementById(
+                "candidateName"
+            ).value.trim().toUpperCase(),
+
+        fatherName:
+            document.getElementById(
+                "fatherName"
+            ).value.trim().toUpperCase(),
+
+        mobile:
+            document.getElementById(
+                "mobileNo"
+            ).value.trim(),
+
+        batchTiming:
+            document.getElementById(
+                "batchTiming"
+            ).value
+
+    };
+
+
+    if(
+        !studentData.name ||
+        !studentData.fatherName ||
+        !studentData.mobile ||
+        !studentData.batchTiming
+    ){
+
+        alert(
+            "Saari details sahi se bharein!"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        studentData.mobile.length !== 10
+    ){
+
+        alert(
+            "Please enter valid 10 digit mobile number."
+        );
+
+        return;
+
+    }
+
+
+    createRandomQuestionPaper();
+
+
+    userAnswers =
+        new Array(
+            questions.length
+        ).fill(null);
+
+
+    visited =
+        new Array(
+            questions.length
+        ).fill(false);
+
+
+    sec1Time=40*60;
+
+    sec2Time=20*60;
+
+
+    warningCount=0;
+
+    fullscreenWarningSeconds=90;
+
+    fullscreenViolationActive=false;
+
+    clearFullscreenWarningTimer();
+
+
+    mcqFontSize =
+        DEFAULT_MCQ_FONT_SIZE;
+
+    applyMCQFontSize();
+
+
+    questionPaletteVisible=true;
+
+
+    document.getElementById(
+        "sec1View"
+    ).classList.remove(
+        "palette-hidden"
+    );
+
+
+    const paletteSection =
+        document.getElementById(
+            "questionPaletteSection"
+        );
+
+    if(paletteSection){
+
+        paletteSection.style.display="";
+
+    }
+
+
+    const paletteHideArrow =
+        document.getElementById(
+            "paletteHideArrow"
+        );
+
+    if(paletteHideArrow){
+
+        paletteHideArrow.style.display =
+            "flex";
+
+    }
+
+
+    const paletteShowArrow =
+        document.getElementById(
+            "paletteShowArrow"
+        );
+
+    if(paletteShowArrow){
+
+        paletteShowArrow.style.display =
+            "none";
+
+    }
+
+
+    pracCodes=[
+        "",
+        "",
+        ""
+    ];
+
+    currentPracQ=0;
+
+
+    examStarted=true;
+
+    isSubmitted=false;
+
+    isFinalSubmitting=false;
+
+    currentSection=1;
+
+    currentQ=0;
+
+
+    document.getElementById(
+        "registrationScreen"
+    ).style.display="none";
+
+
+    document.getElementById(
+        "exam-interface"
+    ).style.display="flex";
+
+
+    document.getElementById(
+        "disp-name"
+    ).innerText =
+        studentData.name;
+
+
+    document.getElementById(
+        "sec1View"
+    ).classList.add(
+        "active"
+    );
+
+
+    document.getElementById(
+        "sec2View"
+    ).classList.remove(
+        "active"
+    );
+
+
+    document.getElementById(
+        "headerTitle"
+    ).innerText =
+        "DRASHTI COMPUTER INSTITUTE - SECTION 1";
+
+
+    document.getElementById(
+        "headerSub"
+    ).innerText =
+        "Objective Exam (100 Questions)";
+
+
+    document.getElementById(
+        "timer"
+    ).innerText =
+        "Section 1 Time: 40:00";
+
+
+    loadQuestion(0);
+
+    startSection1Timer();
+
+    openFullScreen();
+
+}
+
+
+/* =========================================================
+   SECTION 1 TIMER
+   40 MINUTES -> SECTION 2
+========================================================= */
+
+function startSection1Timer(){
+
+    clearInterval(
+        timerInterval
+    );
+
+    updateSection1TimerDisplay();
+
+
+    timerInterval =
+        setInterval(()=>{
+
+            if(
+                isSubmitted ||
+                currentSection!==1
+            ){
+
+                clearInterval(
+                    timerInterval
+                );
+
+                return;
+
+            }
+
+
+            sec1Time--;
+
+
+            if(sec1Time<=0){
+
+                sec1Time=0;
+
+                clearInterval(
+                    timerInterval
+                );
+
+                updateSection1TimerDisplay();
+
+                autoProceedToSection2();
+
+                return;
+
+            }
+
+
+            updateSection1TimerDisplay();
+
+        },1000);
+
+}
+
+
+function updateSection1TimerDisplay(){
+
+    const m =
+        Math.floor(
+            sec1Time/60
+        );
+
+    const s =
+        sec1Time%60;
+
+
+    document.getElementById(
+        "timer"
+    ).innerText =
+        `Section 1 Time: ${m}:${s<10?"0":""}${s}`;
+
+}
+
+
+/* =========================================================
+   LOAD QUESTION
+========================================================= */
+
+function loadQuestion(index){
+
+    if(
+        isSubmitted ||
+        currentSection!==1
+    ){
+
+        return;
+
+    }
+
+
+    if(
+        index<0 ||
+        index>=questions.length
+    ){
+
+        return;
+
+    }
+
+
+    currentQ=index;
+
+    visited[index]=true;
+
+
+    const q =
+        questions[index];
+
+
+    document.getElementById(
+        "question-text"
+    ).innerText =
+        `${index+1}. ${q.q}`;
+
+
+    const optionsDiv =
+        document.getElementById(
+            "options-container"
+        );
+
+
+    optionsDiv.innerHTML="";
+
+
+    q.options.forEach(
+        (opt,i)=>{
+
+            const label =
+                document.createElement(
+                    "label"
+                );
+
+            label.className =
+                "option-label";
+
+
+            const radio =
+                document.createElement(
+                    "input"
+                );
+
+            radio.type =
+                "radio";
+
+            radio.name =
+                "option";
+
+            radio.value =
+                String(i);
+
+
+            if(
+                userAnswers[index] === i
+            ){
+
+                radio.checked=true;
+
+            }
+
+
+            radio.onclick =
+                function(){
+
+                    selectOption(i);
+
+                };
+
+
+            const span =
+                document.createElement(
+                    "span"
+                );
+
+            span.className =
+                "option-text";
+
+
+            span.textContent =
+                opt;
+
+
+            label.appendChild(
+                radio
+            );
+
+            label.appendChild(
+                span
+            );
+
+
+            optionsDiv.appendChild(
+                label
+            );
+
+        }
+    );
+
+
+    applyMCQFontSize();
+
+    renderPalette();
+
+}
+
+
+/* =========================================================
+   SELECT OPTION
+========================================================= */
+
+function selectOption(index){
+
+    if(
+        isSubmitted ||
+        currentSection!==1
+    ){
+
+        return;
+
+    }
+
+
+    userAnswers[currentQ]=index;
+
+    renderPalette();
+
+}
+
+
+/* =========================================================
+   CLEAR RESPONSE
+========================================================= */
+
+function clearResponse(){
+
+    if(
+        isSubmitted ||
+        currentSection!==1
+    ){
+
+        return;
+
+    }
+
+
+    userAnswers[currentQ]=null;
+
+    loadQuestion(currentQ);
+
+}
+
+
+/* =========================================================
+   NEXT
+========================================================= */
+
+function nextQuestion(){
+
+    if(
+        isSubmitted ||
+        currentSection!==1
+    ){
+
+        return;
+
+    }
+
+
+    if(
+        currentQ <
+        questions.length-1
+    ){
+
+        loadQuestion(
+            currentQ+1
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   PREVIOUS
+========================================================= */
+
+function prevQuestion(){
+
+    if(
+        isSubmitted ||
+        currentSection!==1
+    ){
+
+        return;
+
+    }
+
+
+    if(currentQ>0){
+
+        loadQuestion(
+            currentQ-1
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER PALETTE
+========================================================= */
+
+function renderPalette(){
+
+    const palette =
+        document.getElementById(
+            "palette"
+        );
+
+
+    if(!palette){
+        return;
+    }
+
+
+    palette.innerHTML="";
+
+
+    questions.forEach(
+        (_,i)=>{
+
+            let statusClass =
+                userAnswers[i]!==null
+                    ?
+                    "answered"
+                    :
+                    (
+                        visited[i]
+                            ?
+                            "unanswered"
+                            :
+                            ""
+                    );
+
+
+            if(i===currentQ){
+
+                statusClass +=
+                    " active";
+
+            }
+
+
+            palette.innerHTML +=
+
+            `<button
+                class="q-btn ${statusClass}"
+                onclick="loadQuestion(${i})"
+            >
+                ${i+1}
+            </button>`;
+
+        }
+    );
+
+
+    document.getElementById(
+        "attempted-q"
+    ).innerText =
+        userAnswers.filter(
+            ans =>
+                ans!==null
+        ).length;
+
+}
+
+
+/* =========================================================
+   SECTION 1 SUBMIT
+========================================================= */
+
+function askSubmitSection1(){
+
+    if(
+        isSubmitted ||
+        currentSection!==1
+    ){
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "confirmSectionModal"
+    ).style.display="flex";
+
+}
+
+
+function closeConfirmModal(){
+
+    document.getElementById(
+        "confirmSectionModal"
+    ).style.display="none";
+
+}
+
+
+/* =========================================================
+   AUTO SECTION 2
+========================================================= */
+
+function autoProceedToSection2(){
+
+    if(
+        isSubmitted ||
+        currentSection!==1
+    ){
+
+        return;
+
+    }
+
+
+    closeConfirmModal();
+
+    proceedToSection2();
+
+}
+
+
+/* =========================================================
+   SECTION 2
+========================================================= */
+
+function proceedToSection2(){
+
+    if(
+        isSubmitted ||
+        currentSection!==1
+    ){
+
+        return;
+
+    }
+
+
+    closeConfirmModal();
+
+    clearInterval(
+        timerInterval
+    );
+
+
+    currentSection=2;
+
+
+    document.getElementById(
+        "sec1View"
+    ).classList.remove(
+        "active"
+    );
+
+
+    document.getElementById(
+        "sec2View"
+    ).classList.add(
+        "active"
+    );
+
+
+    document.getElementById(
+        "headerTitle"
+    ).innerText =
+        "DRASHTI COMPUTER INSTITUTE - SECTION 2";
+
+
+    document.getElementById(
+        "headerSub"
+    ).innerText =
+        "HTML Practical Exam (3 Questions)";
+
+
+    switchPracQuestion(0);
+
+
+    sec2Time=20*60;
+
+
+    document.getElementById(
+        "timer"
+    ).innerText =
+        "Section 2 Time: 20:00";
+
+
+    startSection2Timer();
+
+    openFullScreen();
+
+}
+
+
+/* =========================================================
+   SECTION 2 TIMER
+   20 MINUTES -> FINAL SUBMIT
+========================================================= */
+
+function startSection2Timer(){
+
+    clearInterval(
+        timerInterval
+    );
+
+    updateSection2TimerDisplay();
+
+
+    timerInterval =
+        setInterval(()=>{
+
+            if(
+                isSubmitted ||
+                currentSection!==2
+            ){
+
+                clearInterval(
+                    timerInterval
+                );
+
+                return;
+
+            }
+
+
+            sec2Time--;
+
+
+            if(sec2Time<=0){
+
+                sec2Time=0;
+
+                clearInterval(
+                    timerInterval
+                );
+
+                updateSection2TimerDisplay();
+
+                autoFinalSubmit();
+
+                return;
+
+            }
+
+
+            updateSection2TimerDisplay();
+
+        },1000);
+
+}
+
+
+function updateSection2TimerDisplay(){
+
+    const m =
+        Math.floor(
+            sec2Time/60
+        );
+
+    const s =
+        sec2Time%60;
+
+
+    document.getElementById(
+        "timer"
+    ).innerText =
+        `Section 2 Time: ${m}:${s<10?"0":""}${s}`;
+
+}
+
+
+/* =========================================================
+   PRACTICAL SWITCH
+========================================================= */
+
+function switchPracQuestion(index){
+
+    if(
+        isSubmitted ||
+        currentSection!==2
+    ){
+
+        return;
+
+    }
+
+
+    const editor =
+        document.getElementById(
+            "pracCodeEditor"
+        );
+
+
+    if(editor){
+
+        pracCodes[currentPracQ] =
+            editor.value;
+
+    }
+
+
+    currentPracQ=index;
+
+
+    document.querySelectorAll(
+        ".prac-tab-btn"
+    ).forEach(
+        (btn,i)=>{
+
+            btn.classList.toggle(
+                "active",
+                i===index
+            );
+
+        }
+    );
+
+
+    document.getElementById(
+        "pracQTitle"
+    ).innerText =
+        pracQuestions[index].title;
+
+
+    document.getElementById(
+        "pracCodeEditor"
+    ).value =
+        pracCodes[index];
+
+
+    updatePracPreview();
+
+}
+
+
+/* =========================================================
+   PRACTICAL PREVIEW
+========================================================= */
+
+function updatePracPreview(){
+
+    const editor =
+        document.getElementById(
+            "pracCodeEditor"
+        );
+
+    const preview =
+        document.getElementById(
+            "pracLivePreview"
+        );
+
+
+    if(!editor || !preview){
+        return;
+    }
+
+
+    preview.innerHTML =
+        editor.value;
+
+}
+
+
+/* =========================================================
+   FINAL SUBMIT CONFIRM
+========================================================= */
+
+function askSubmitFinalExam(){
+
+    if(
+        isSubmitted ||
+        isFinalSubmitting ||
+        currentSection!==2
+    ){
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "confirmFinalModal"
+    ).style.display="flex";
+
+}
+
+
+function closeFinalConfirmModal(){
+
+    document.getElementById(
+        "confirmFinalModal"
+    ).style.display="none";
+
+}
+
+
+/* =========================================================
+   AUTO FINAL SUBMIT
+========================================================= */
+
+function autoFinalSubmit(){
+
+    if(
+        isSubmitted ||
+        isFinalSubmitting
+    ){
+
+        return;
+
+    }
+
+
+    closeFinalConfirmModal();
+
+    proceedFinalSubmit(true);
+
+}
+
+
+/* =========================================================
+   CAPTURE PRACTICAL OUTPUTS
+========================================================= */
+
+async function capturePracticalOutputs(){
+
+    const originalQ =
+        currentPracQ;
+
+
+    const editor =
+        document.getElementById(
+            "pracCodeEditor"
+        );
+
+
+    const originalCode =
+        editor
+            ?
+            editor.value
+            :
+            "";
+
+
+    const outputImages=[
+        "",
+        "",
+        ""
+    ];
+
+
+    try{
+
+        pracCodes[originalQ] =
+            originalCode;
+
+
+        for(
+            let i=0;
+            i<pracQuestions.length;
+            i++
+        ){
+
+            currentPracQ=i;
+
+
+            document.getElementById(
+                "pracQTitle"
+            ).innerText =
+                pracQuestions[i].title;
+
+
+            document.getElementById(
+                "pracCodeEditor"
+            ).value =
+                pracCodes[i] || "";
+
+
+            updatePracPreview();
+
+
+            await new Promise(
+                resolve =>
+                    requestAnimationFrame(
+                        () =>
+                            requestAnimationFrame(
+                                resolve
+                            )
+                    )
+            );
+
+
+            const previewElement =
+                document.getElementById(
+                    "pracLivePreview"
+                );
+
+
+            try{
+
+                const canvas =
+                    await html2canvas(
+                        previewElement,
+                        {
+                            scale:1,
+
+                            useCORS:true,
+
+                            backgroundColor:"#ffffff"
+                        }
+                    );
+
+
+                outputImages[i] =
+                    canvas.toDataURL(
+                        "image/png"
+                    );
+
+            }catch(err){
+
+                console.log(
+                    "Output capture error Q"+(i+1)+":",
+                    err
+                );
+
+            }
+
+        }
+
+    }finally{
+
+        currentPracQ =
+            originalQ;
+
+
+        document.getElementById(
+            "pracQTitle"
+        ).innerText =
+            pracQuestions[
+                originalQ
+            ].title;
+
+
+        document.getElementById(
+            "pracCodeEditor"
+        ).value =
+            pracCodes[
+                originalQ
+            ] || "";
+
+
+        document.getElementById(
+            "pracLivePreview"
+        ).innerHTML =
+            pracCodes[
+                originalQ
+            ] || "";
+
+    }
+
+
+    return outputImages;
+
+}
+
+
+/* =========================================================
+   SUCCESS POPUP
+========================================================= */
+
+function showFinalSuccessPopup(
+    attemptedSection1,
+    unattemptedSection1,
+    attemptedSection2,
+    unattemptedSection2
+){
+
+    const totalQuestionsSection1 =
+        100;
+
+    const totalQuestionsSection2 =
+        3;
+
+
+    document.getElementById(
+        "modalTitle"
+    ).innerText =
+        "✅ FINAL EXAM SUCCESSFULLY SUBMITTED";
+
+
+    document.getElementById(
+        "modalMsg"
+    ).innerHTML =
+
+        `<b>Exam successfully submitted!</b><br><br>`+
+
+        `📘 <b>SECTION 1</b><br>`+
+
+        `Total Questions:
+        <b>${totalQuestionsSection1}</b><br>`+
+
+        `Attempted:
+        <b>${attemptedSection1}</b>
+        &nbsp; | &nbsp;
+        Not Attempted:
+        <b>${unattemptedSection1}</b><br><br>`+
+
+        `💻 <b>SECTION 2</b><br>`+
+
+        `Total Questions:
+        <b>${totalQuestionsSection2}</b><br>`+
+
+        `Attempted:
+        <b>${attemptedSection2}</b>
+        &nbsp; | &nbsp;
+        Not Attempted:
+        <b>${unattemptedSection2}</b>`;
+
+
+    document.getElementById(
+        "fullscreenWarningControls"
+    ).style.display="none";
+
+
+    document.getElementById(
+        "warningModalButtons"
+    ).innerHTML =
+
+        `<button
+            class="btn btn-submit"
+            onclick="location.reload()"
+        >
+            OK
+        </button>`;
+
+
+    document.getElementById(
+        "warningModal"
+    ).style.display="flex";
+
+}
+
+
+/* =========================================================
+   FINAL SUBMISSION
+========================================================= */
+
+async function proceedFinalSubmit(
+    isAutoSubmit=false
+){
+
+    if(
+        isSubmitted ||
+        isFinalSubmitting
+    ){
+
+        return;
+
+    }
+
+
+    isFinalSubmitting=true;
+
+
+    closeFinalConfirmModal();
+
+    clearInterval(
+        timerInterval
+    );
+
+    clearFullscreenWarningTimer();
+
+
+    const currentEditor =
+        document.getElementById(
+            "pracCodeEditor"
+        );
+
+
+    if(currentEditor){
+
+        pracCodes[currentPracQ] =
+            currentEditor.value;
+
+    }
+
+
+    const finalBtn =
+        document.getElementById(
+            "finalSubBtn"
+        );
+
+
+    if(finalBtn){
+
+        finalBtn.disabled=true;
+
+        finalBtn.innerText =
+            "Submitting Data...";
+
+    }
+
+
+    const attemptedSection1 =
+        userAnswers.filter(
+            ans =>
+                ans!==null
+        ).length;
+
+
+    const unattemptedSection1 =
+        questions.length -
+        attemptedSection1;
+
+
+    const attemptedSection2 =
+        pracCodes.filter(
+            code =>
+                String(
+                    code || ""
+                ).trim() !== ""
+        ).length;
+
+
+    const unattemptedSection2 =
+        pracCodes.length -
+        attemptedSection2;
+
+
+    let obtainedMarks=0;
+
+
+    userAnswers.forEach(
+        (ans,i)=>{
+
+            if(
+                ans!==null &&
+                questions[i] &&
+                ans===questions[i].ans
+            ){
+
+                obtainedMarks++;
+
+            }
+
+        }
+    );
+
+
+    const outputImages =
+        await capturePracticalOutputs();
+
+
+    isSubmitted=true;
+
+
+    const payload={
+
+        name:
+            studentData.name,
+
+        fatherName:
+            studentData.fatherName,
+
+        mobile:
+            studentData.mobile,
+
+        batchTiming:
+            studentData.batchTiming,
+
+
+        attempted:
+            attemptedSection1,
+
+        unattempted:
+            unattemptedSection1,
+
+        attemptedSection1:
+            attemptedSection1,
+
+        unattemptedSection1:
+            unattemptedSection1,
+
+
+        attemptedSection2:
+            attemptedSection2,
+
+        unattemptedSection2:
+            unattemptedSection2,
+
+
+        totalAttempted:
+            attemptedSection1 +
+            attemptedSection2,
+
+        totalUnattempted:
+            unattemptedSection1 +
+            unattemptedSection2,
+
+
+        marks:
+            `${obtainedMarks} / 100`,
+
+        resultStatus:
+            obtainedMarks>=50
+                ?
+                "PASS"
+                :
+                "FAIL",
+
+
+        exitCount:
+            warningCount,
+
+
+        htmlCodeQ1:
+            pracCodes[0] ||
+            "Not Attempted",
+
+        htmlCodeQ2:
+            pracCodes[1] ||
+            "Not Attempted",
+
+        htmlCodeQ3:
+            pracCodes[2] ||
+            "Not Attempted",
+
+
+        outputImageQ1:
+            outputImages[0] ||
+            "",
+
+        outputImageQ2:
+            outputImages[1] ||
+            "",
+
+        outputImageQ3:
+            outputImages[2] ||
+            "",
+
+        outputImageBase64:
+            outputImages[0] ||
+            ""
+
+    };
+
+
+    const scriptUrls = [
+        SCRIPT_URL_1,
+        SCRIPT_URL_2,
+        SCRIPT_URL_3
+    ];
+
+
+    scriptUrls.forEach(
+        (url,index) => {
+
+            if(
+                url &&
+                url.startsWith("http")
+            ){
+
+                fetch(
+                    url,
+                    {
+                        method:"POST",
+
+                        mode:"no-cors",
+
+                        headers:{
+                            "Content-Type":
+                                "text/plain"
+                        },
+
+                        body:
+                            JSON.stringify(
+                                payload
+                            ),
+
+                        keepalive:true
+                    }
+                )
+                .then(
+                    () => {
+
+                        console.log(
+                            `Submission request sent successfully to URL ${index + 1}`
+                        );
+
+                    }
+                )
+                .catch(
+                    err => {
+
+                        console.log(
+                            `Background submission error for URL ${index + 1}:`,
+                            err
+                        );
+
+                    }
+                );
+
+            }
+
+        }
+    );
+
+
+    if(finalBtn){
+
+        finalBtn.innerText =
+            "Submitted Successfully";
+
+    }
+
+
+    showFinalSuccessPopup(
+        attemptedSection1,
+        unattemptedSection1,
+        attemptedSection2,
+        unattemptedSection2
+    );
+
+}
+
+
+/* =========================================================
+   FULLSCREEN WARNING SYSTEM
+========================================================= */
+
+function showFullscreenWarning(){
+
+    if(
+        isSubmitted ||
+        !examStarted
+    ){
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "modalTitle"
+    ).innerText =
+        `⚠️ FULLSCREEN WARNING #${warningCount}`;
+
+
+    document.getElementById(
+        "modalMsg"
+    ).innerHTML =
+
+        `आप Fullscreen Mode से बाहर आ चुके हैं।<br><br>`+
+
+        `<b>
+            कृपया ${fullscreenWarningSeconds}
+            सेकंड के अंदर वापस Fullscreen Mode में आएँ।
+        </b><br><br>`;
+
+
+    const controls =
+        document.getElementById(
+            "fullscreenWarningControls"
+        );
+
+
+    controls.style.display="block";
+
+
+    controls.innerHTML =
+
+        `Re-enter Fullscreen in:
+        <span id="fullscreenCountdown">
+        ${fullscreenWarningSeconds}
+        </span>s`;
+
+
+    document.getElementById(
+        "warningModalButtons"
+    ).innerHTML =
+
+        `<button
+            class="btn btn-next"
+            onclick="reEnterFullscreen()"
+        >
+            OK & Re-enter Fullscreen
+        </button>`;
+
+
+    document.getElementById(
+        "warningModal"
+    ).style.display="flex";
+
+}
+
+
+function updateFullscreenCountdown(){
+
+    const countdown =
+        document.getElementById(
+            "fullscreenCountdown"
+        );
+
+
+    if(countdown){
+
+        countdown.innerText =
+            fullscreenWarningSeconds;
+
+    }
+
+}
+
+
+function clearFullscreenWarningTimer(){
+
+    if(fullscreenWarningTimer){
+
+        clearInterval(
+            fullscreenWarningTimer
+        );
+
+        fullscreenWarningTimer=null;
+
+    }
+
+
+    fullscreenWarningActive=false;
+
+}
+
+
+function startFullscreenWarningTimer(){
+
+    clearFullscreenWarningTimer();
+
+
+    fullscreenWarningActive=true;
+
+    fullscreenWarningSeconds=90;
+
+    updateFullscreenCountdown();
+
+
+    fullscreenWarningTimer =
+        setInterval(()=>{
+
+            if(
+                isSubmitted ||
+                isFinalSubmitting
+            ){
+
+                clearFullscreenWarningTimer();
+
+                return;
+
+            }
+
+
+            if(
+                isCurrentlyFullscreen()
+            ){
+
+                fullscreenViolationActive=false;
+
+                clearFullscreenWarningTimer();
+
+                closeFullscreenWarningOnly();
+
+                return;
+
+            }
+
+
+            fullscreenWarningSeconds--;
+
+            updateFullscreenCountdown();
+
+
+            if(
+                fullscreenWarningSeconds<=0
+            ){
+
+                clearFullscreenWarningTimer();
+
+                handleFullscreenTimeout();
+
+            }
+
+        },1000);
+
+}
+
+
+function handleFullscreenTimeout(){
+
+    if(
+        isSubmitted ||
+        isFinalSubmitting ||
+        !examStarted
+    ){
+
+        return;
+
+    }
+
+
+    if(
+        isCurrentlyFullscreen()
+    ){
+
+        fullscreenViolationActive=false;
+
+        closeFullscreenWarningOnly();
+
+        return;
+
+    }
+
+
+    if(
+        warningCount>=2
+    ){
+
+        warningCount=3;
+
+        showThirdWarningAndAutoSubmit();
+
+        return;
+
+    }
+
+
+    warningCount=2;
+
+    fullscreenWarningSeconds=90;
+
+    showFullscreenWarning();
+
+
+    fullscreenWarningActive=true;
+
+    updateFullscreenCountdown();
+
+
+    fullscreenWarningTimer =
+        setInterval(()=>{
+
+            if(
+                isSubmitted ||
+                isFinalSubmitting
+            ){
+
+                clearFullscreenWarningTimer();
+
+                return;
+
+            }
+
+
+            if(
+                isCurrentlyFullscreen()
+            ){
+
+                fullscreenViolationActive=false;
+
+                clearFullscreenWarningTimer();
+
+                closeFullscreenWarningOnly();
+
+                return;
+
+            }
+
+
+            fullscreenWarningSeconds--;
+
+            updateFullscreenCountdown();
+
+
+            if(
+                fullscreenWarningSeconds<=0
+            ){
+
+                clearFullscreenWarningTimer();
+
+                handleFullscreenTimeout();
+
+            }
+
+        },1000);
+
+}
+
+
+function showThirdWarningAndAutoSubmit(){
+
+    if(
+        isSubmitted ||
+        isFinalSubmitting
+    ){
+
+        return;
+
+    }
+
+
+    clearFullscreenWarningTimer();
+
+
+    document.getElementById(
+        "modalTitle"
+    ).innerText =
+        "🚨 FINAL FULLSCREEN WARNING #3";
+
+
+    document.getElementById(
+        "modalMsg"
+    ).innerHTML =
+
+        `<b>WARNING #3</b><br><br>`+
+
+        `आप निर्धारित समय में Fullscreen Mode में वापस नहीं आए।<br><br>`+
+
+        `<b style="color:red;">
+            Exam अब Automatically Final Submit हो रहा है.
+        </b>`;
+
+
+    document.getElementById(
+        "fullscreenWarningControls"
+    ).style.display="none";
+
+
+    document.getElementById(
+        "warningModalButtons"
+    ).innerHTML="";
+
+
+    document.getElementById(
+        "warningModal"
+    ).style.display="flex";
+
+
+    setTimeout(()=>{
+
+        if(
+            !isSubmitted &&
+            !isFinalSubmitting
+        ){
+
+            proceedFinalSubmit(true);
+
+        }
+
+    },100);
+
+}
+
+
+function reEnterFullscreen(){
+
+    if(
+        isSubmitted ||
+        !examStarted
+    ){
+
+        return;
+
+    }
+
+
+    openFullScreen();
+
+}
+
+
+function closeFullscreenWarningOnly(){
+
+    const modal =
+        document.getElementById(
+            "warningModal"
+        );
+
+
+    if(
+        modal &&
+        !isSubmitted &&
+        !isFinalSubmitting
+    ){
+
+        modal.style.display="none";
+
+    }
+
+}
+
+
+function handleFullscreenChange(){
+
+    if(
+        !examStarted ||
+        isSubmitted ||
+        isFinalSubmitting
+    ){
+
+        return;
+
+    }
+
+
+    const isFullscreen =
+        isCurrentlyFullscreen();
+
+
+    if(isFullscreen){
+
+        clearFullscreenWarningTimer();
+
+        fullscreenViolationActive=false;
+
+        closeFullscreenWarningOnly();
+
+        return;
+
+    }
+
+
+    if(
+        fullscreenViolationActive
+    ){
+
+        return;
+
+    }
+
+
+    fullscreenViolationActive=true;
+
+
+    warningCount++;
+
+
+    if(
+        warningCount>=3
+    ){
+
+        warningCount=3;
+
+        showThirdWarningAndAutoSubmit();
+
+        return;
+
+    }
+
+
+    fullscreenWarningSeconds=90;
+
+    showFullscreenWarning();
+
+    startFullscreenWarningTimer();
+
+
+}
+
+
+document.addEventListener(
+    "fullscreenchange",
+    handleFullscreenChange
+);
+
+document.addEventListener(
+    "webkitfullscreenchange",
+    handleFullscreenChange
+);
+
+
+/* =========================================================
+   INITIAL FONT
+========================================================= */
+
+applyMCQFontSize();
+
+</script>
+
+</body>
+</html>
